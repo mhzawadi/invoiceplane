@@ -1,6 +1,7 @@
 #!/bin/sh
 
 . ~/.docker_build
+TARGET_IMAGE="${DOCKER_USERNAME}/${PWD##*/}"
 
 # generate the image tag
 #export TARGET_IMAGE_TAG=$(if [ "$TRAVIS_BRANCH" = "master" ]; then if [ "$TAG_SUFFIX" = "" ]; then echo "latest"; else echo "$TAG_SUFFIX"; fi; else if [ "$TAG_SUFFIX" = "" ]; then echo "$TRAVIS_BRANCH"; else echo "$TRAVIS_BRANCH-$TAG_SUFFIX"; fi; fi)
