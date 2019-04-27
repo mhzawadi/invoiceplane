@@ -17,15 +17,15 @@ RUN apt-get update && \
 	echo ". /etc/environment" >> /etc/apache2/envvars && \
 	a2enmod rewrite
 
-  ENV IP_SOURCE="https://github.com/invoiceplane/invoiceplane/archive/" \
-      IP_VERSION="v.1.5.9" \
-      MYSQL_HOST="mysql" \
-      MYSQL_USER="phpipam" \
-      MYSQL_PASSWORD="phpipamadmin" \
-      MYSQL_DB="phpipam" \
-      MYSQL_PORT="3306" \
-      IP_URL="false" \
-      DISABLE_SETUP="/path/to/cert.key"
+ENV IP_SOURCE="https://github.com/invoiceplane/invoiceplane/archive/" \
+    IP_VERSION="v1.5.9" \
+    MYSQL_HOST="mysql" \
+    MYSQL_USER="phpipam" \
+    MYSQL_PASSWORD="phpipamadmin" \
+    MYSQL_DB="phpipam" \
+    MYSQL_PORT="3306" \
+    IP_URL="false" \
+    DISABLE_SETUP="/path/to/cert.key"
 
 COPY php.ini /usr/local/etc/php/
 
@@ -41,7 +41,7 @@ RUN sed -i \
     -e "s/\['DB_PASSWORD'\] = 'phpipamadmin'/\['DB_PASSWORD'\] = getenv(\"MYSQL_PASSWORD\")/" \
     -e "s/\['DB_DATABASE'\] = 'phpipam'/\['DB_DATABASE'\] = getenv(\"MYSQL_DB\")/" \
     -e "s/\['DB_PORT'\] = 3306/\['DB_PORT'\] = getenv(\"MYSQL_PORT\")/" \
-    -e "s/\['IP_URL'\] *= http://localhost/\['IP_URL'\] = getenv(\"IP_URL\")/" \
+    -e "s/\['IP_URL'\] *= 'http://localhost'/\['IP_URL'\] = getenv(\"IP_URL\")/" \
     -e "s/\['DISABLE_SETUP'\] *= false/['DISABLE_SETUP'\] = getenv(\"SSL_KEY\")/" \
     /var/www/html/ipconfig.php
 
