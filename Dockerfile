@@ -17,7 +17,7 @@ RUN apt-get update && \
 	echo ". /etc/environment" >> /etc/apache2/envvars && \
 	a2enmod rewrite
 
-  ENV IP_SOURCE="https://github.com/phpipam/phpipam/archive/" \
+  ENV IP_SOURCE="https://github.com/invoiceplane/invoiceplane/archive/" \
       IP_VERSION="v.1.5.9" \
       MYSQL_HOST="mysql" \
       MYSQL_USER="phpipam" \
