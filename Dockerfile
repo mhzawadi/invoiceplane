@@ -19,13 +19,13 @@ RUN apt-get update && \
 
 ENV IP_SOURCE="https://github.com/invoiceplane/invoiceplane/archive/" \
     IP_VERSION="v1.5.9" \
-    MYSQL_HOST="mysql" \
-    MYSQL_USER="phpipam" \
-    MYSQL_PASSWORD="phpipamadmin" \
-    MYSQL_DB="phpipam" \
+    MYSQL_HOST="localhost" \
+    MYSQL_USER="invoiceplane" \
+    MYSQL_PASSWORD="invoiceplane" \
+    MYSQL_DB="invoiceplane" \
     MYSQL_PORT="3306" \
-    IP_URL="false" \
-    DISABLE_SETUP="/path/to/cert.key"
+    IP_URL="http://invoiceplane.local" \
+    DISABLE_SETUP="false"
 
 COPY php.ini /usr/local/etc/php/
 
@@ -36,13 +36,13 @@ RUN tar -xzf /tmp/${IP_VERSION}.tar.gz -C /var/www/html/ --strip-components=1 &&
 
 # Use system environment variables into config.php
 RUN sed -i \
-    -e "s/\['DB_HOSTNAME'\] = 'localhost'/\['DB_HOSTNAME'\] = getenv(\"MYSQL_HOST\")/" \
-    -e "s/\['DB_USERNAME'\] = 'phpipam'/\['DB_USERNAME'\] = getenv(\"MYSQL_USER\")/" \
-    -e "s/\['DB_PASSWORD'\] = 'phpipamadmin'/\['DB_PASSWORD'\] = getenv(\"MYSQL_PASSWORD\")/" \
-    -e "s/\['DB_DATABASE'\] = 'phpipam'/\['DB_DATABASE'\] = getenv(\"MYSQL_DB\")/" \
-    -e "s/\['DB_PORT'\] = 3306/\['DB_PORT'\] = getenv(\"MYSQL_PORT\")/" \
-    -e "s/\['IP_URL'\] *= 'http://localhost'/\['IP_URL'\] = getenv(\"IP_URL\")/" \
-    -e "s/\['DISABLE_SETUP'\] *= false/['DISABLE_SETUP'\] = getenv(\"SSL_KEY\")/" \
+    -e "s/DB_HOSTNAME=/DB_HOSTNAME=getenv(\"MYSQL_HOST\")/" \
+    -e "s/DB_USERNAME=/DB_USERNAME=getenv(\"MYSQL_USER\")/" \
+    -e "s/DB_PASSWORD=/DB_PASSWORD=getenv(\"MYSQL_PASSWORD\")/" \
+    -e "s/DB_DATABASE=/DB_DATABASE=getenv(\"MYSQL_DB\")/" \
+    -e "s/DB_PORT=/DB_PORT=getenv(\"MYSQL_PORT\")/" \
+    -e "s/IP_URL=/IP_URL=getenv(\"IP_URL\")/" \
+    -e "s/DISABLE_SETUP=false/DISABLE_SETUP=getenv(\"DISABLE_SETUP\")/" \
     /var/www/html/ipconfig.php
 
 EXPOSE 80
