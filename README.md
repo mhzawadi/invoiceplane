@@ -2,7 +2,7 @@
   <img src="http://invoiceplane.com/content/logo/SVG/logo_small.svg">
 </p>
 <p>&nbsp;</p>
-
+<p align="center"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/mhzawadi/invoiceplane.svg"> <img alt="Docker Cloud Build Status" src="https://img.shields.io/docker/cloud/build/mhzawadi/invoiceplane.svg"></p>
 <p align="center" bgcolor="#429ae1"><b>InvoicePlane is a self-hosted open source application for managing your invoices, clients and payments.<br>
   For more information visit <a href="https://invoiceplane.com">InvoicePlane.com</a> or try the <a href="https://demo.invoiceplane.com">Demo</a>.</b></p>
 
