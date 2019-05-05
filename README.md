@@ -20,7 +20,7 @@ $ docker run --name phpipam-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw -v /my_dir
 
 Here, we store data on the host system under `/my_dir/phpipam` and use a specific root password.
 
-### Phpipam
+### InvoicePlane
 
 ```bash
 $ docker run -ti -d -p 80:80 --name ipam --link phpipam-mysql:mysql mhzawadi/invoiceplane
