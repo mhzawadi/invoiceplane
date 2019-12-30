@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="http://invoiceplane.com/content/logo/SVG/logo_small.svg">
+  <img src="https://github.com/InvoicePlane/InvoicePlane/raw/master/assets/core/img/logo_400x200.png">
 </p>
 <p>&nbsp;</p>
-<p align="center"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/mhzawadi/invoiceplane.svg"> <a href="https://drone.horwood.biz/matt/invoiceplane"><img src="https://drone.horwood.biz/api/badges/matt/invoiceplane/status.svg" /></a></p>
+<p align="center"><a href="https://hub.docker.com/r/mhzawadi/invoiceplane"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/mhzawadi/invoiceplane.svg"></a> <a href="https://drone.horwood.biz/matt/invoiceplane"><img src="https://drone.horwood.biz/api/badges/matt/invoiceplane/status.svg" /></a></p>
 <p align="center" bgcolor="#429ae1"><b>InvoicePlane is a self-hosted open source application for managing your invoices, clients and payments.<br>
   For more information visit <a href="https://invoiceplane.com">InvoicePlane.com</a> or try the <a href="https://demo.invoiceplane.com">Demo</a>.</b></p>
 
