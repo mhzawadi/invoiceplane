@@ -24,7 +24,7 @@ ADD ${IP_SOURCE}/${IP_VERSION}/${IP_VERSION}.zip /tmp/
 RUN unzip /tmp/${IP_VERSION}.zip && \
     mv ./ip/* ./ && \
     cp ipconfig.php.example ipconfig.php && \
-		chown www-data:www-data /var/www/html/* -R;
+		chown apache:apache /var/www/html/* -R;
 
 # Use system environment variables into config.php
 RUN sed -i \
