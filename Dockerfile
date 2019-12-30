@@ -1,23 +1,11 @@
-ARG MH_ARCH
-ARG MH_TAG
-FROM ${MH_ARCH}:${MH_TAG}
+FROM alpine:3.9.4
 MAINTAINER Matthew Horwood <matt@horwood.biz>
 
-# Install required deb packages
-RUN apt-get update && \
-	apt-get install -y --no-install-recommends \
-	git libgmp-dev libmcrypt-dev libfreetype6-dev libjpeg62-turbo-dev \
-	libldb-dev libldap2-dev unzip && \
-	ln -s /usr/lib/x86_64-linux-gnu/libldap.so /usr/lib/libldap.so && \
-	ln -s /usr/lib/x86_64-linux-gnu/liblber.so /usr/lib/liblber.so && \
-	rm -rf /var/lib/apt/lists/* && \
-	docker-php-ext-configure mysqli --with-mysqli=mysqlnd && \
-	ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h && \
-	docker-php-ext-configure gmp --with-gmp=/usr/include/x86_64-linux-gnu && \
-	docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ && \
-	docker-php-ext-install -j$(nproc) mysqli sockets gd gmp ldap gettext pcntl && \
-	echo ". /etc/environment" >> /etc/apache2/envvars && \
-	a2enmod rewrite
+RUN apk update                             \
+    &&  apk add php7-apache2 php7-curl php7-dom php7-xml php7-xmlwriter    \
+    php7-tokenizer php7-simplexml php7-gd php7-gmp php7-gettext php7-pcntl \
+		php7-mysqli php7-sockets composer \
+    && rm -f /var/cache/apk/*;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
     IP_VERSION="v1.5.9" \
@@ -31,7 +19,7 @@ ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
 
 COPY php.ini /usr/local/etc/php/
 WORKDIR /var/www/html
-# copy phpipam sources to web dir
+# copy invoiceplane sources to web dir
 ADD ${IP_SOURCE}/${IP_VERSION}/${IP_VERSION}.zip /tmp/
 RUN unzip /tmp/${IP_VERSION}.zip && \
     mv ./ip/* ./ && \

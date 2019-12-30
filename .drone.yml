@@ -1,0 +1,150 @@
+---
+kind: pipeline
+type: docker
+name: amd64
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: mhzawadi/${DRONE_REPO_NAME}
+      auto_tag: false
+      tags:
+        - v1.5.9-amd64
+        - latest-amd64
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+
+---
+kind: pipeline
+type: docker
+name: arm32
+
+platform:
+  os: linux
+  arch: arm
+
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: mhzawadi/${DRONE_REPO_NAME}
+      auto_tag: false
+      tags:
+        - v1.5.9-arm
+        - latest-arm
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+
+---
+kind: pipeline
+type: docker
+name: arm64
+
+platform:
+  os: linux
+  arch: arm64
+
+steps:
+  - name: publish
+    image: plugins/docker
+    settings:
+      repo: mhzawadi/${DRONE_REPO_NAME}
+      auto_tag: false
+      tags:
+        - v1.5.9-arm64
+        - latest-arm64
+      username:
+        from_secret: dockerhub_username
+      password:
+        from_secret: dockerhub_password
+
+---
+kind: pipeline
+type: docker
+name: manifest
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: manifest
+  image: plugins/manifest
+  settings:
+    username:
+      from_secret: dockerhub_username
+    password:
+      from_secret: dockerhub_password
+    target: mhzawadi/${DRONE_REPO_NAME}:v1.5.9
+    template: mhzawadi/${DRONE_REPO_NAME}:v1.5.9-ARCH
+    platforms:
+      - linux/arm
+      - linux/arm64
+      - linux/amd64
+depends_on:
+  - amd64
+  - arm64
+  - arm32
+
+---
+kind: pipeline
+type: docker
+name: manifest_latest
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+- name: manifest
+  image: plugins/manifest
+  settings:
+    username:
+      from_secret: dockerhub_username
+    password:
+      from_secret: dockerhub_password
+    target: mhzawadi/${DRONE_REPO_NAME}:latest
+    template: mhzawadi/${DRONE_REPO_NAME}:latest-ARCH
+    platforms:
+      - linux/arm
+      - linux/arm64
+      - linux/amd64
+depends_on:
+  - arm64
+  - arm32
+
+---
+kind: pipeline
+type: docker
+name: notification
+
+trigger:
+  status:
+  - success
+  - failure
+
+platform:
+  os: linux
+  arch: amd64
+
+steps:
+  - name: send telegram notification
+    image: appleboy/drone-telegram
+    settings:
+      token:
+        from_secret: telegram_token
+      to:
+        from_secret: telegram_user
+
+depends_on:
+  - manifest
+  - manifest_latest
