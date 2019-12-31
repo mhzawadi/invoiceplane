@@ -23,10 +23,11 @@ COPY start.sh /sbin/
 WORKDIR /var/www/html
 # copy invoiceplane sources to web dir
 ADD ${IP_SOURCE}/${IP_VERSION}/${IP_VERSION}.zip /tmp/
-RUN unzip /tmp/${IP_VERSION}.zip && \
-    mv ./ip/* ./ && \
-    cp ipconfig.php.example ipconfig.php && \
-		chown apache:apache /var/www/html/* -R;
+RUN unzip /tmp/${IP_VERSION}.zip           && \
+    mv ./ip/* ./                           && \
+    cp ipconfig.php.example ipconfig.php   && \
+		chown apache:apache /var/www/html/* -R && \
+    chmod +x /sbin/start.sh;
 
 # Use system environment variables into config.php
 RUN sed -i \
