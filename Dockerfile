@@ -19,6 +19,7 @@ ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
     DISABLE_SETUP="false"
 
 COPY php.ini /etc/php7/
+COPY start.sh /sbin/
 WORKDIR /var/www/html
 # copy invoiceplane sources to web dir
 ADD ${IP_SOURCE}/${IP_VERSION}/${IP_VERSION}.zip /tmp/
@@ -40,3 +41,5 @@ RUN sed -i \
 
 VOLUME /var/www/html/uploads
 EXPOSE 80
+
+ENTRYPOINT ["/sbin/start.sh"]
