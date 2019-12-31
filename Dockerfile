@@ -5,7 +5,8 @@ RUN apk update                             \
     &&  apk add php7-apache2 php7-curl php7-dom php7-xml php7-xmlwriter    \
     php7-tokenizer php7-simplexml php7-gd php7-gmp php7-gettext php7-pcntl \
 		php7-mysqli php7-sockets composer \
-    && rm -f /var/cache/apk/*;
+    && rm -f /var/cache/apk/* \
+    && mkdir -p /var/www/html;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
     IP_VERSION="v1.5.9" \
@@ -17,7 +18,7 @@ ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
     IP_URL="http://invoiceplane.local" \
     DISABLE_SETUP="false"
 
-COPY php.ini /usr/local/etc/php/
+COPY php.ini /etc/php7/
 WORKDIR /var/www/html
 # copy invoiceplane sources to web dir
 ADD ${IP_SOURCE}/${IP_VERSION}/${IP_VERSION}.zip /tmp/
@@ -37,5 +38,5 @@ RUN sed -i \
     -e "s/DISABLE_SETUP=false/DISABLE_SETUP=getenv(\"DISABLE_SETUP\")/" \
     /var/www/html/ipconfig.php
 
-VOLUME /var/www/html
+VOLUME /var/www/html/uploads
 EXPOSE 80
