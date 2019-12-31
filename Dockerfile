@@ -4,7 +4,8 @@ MAINTAINER Matthew Horwood <matt@horwood.biz>
 RUN apk update                             \
     &&  apk add php7-apache2 php7-curl php7-dom php7-xml php7-xmlwriter    \
     php7-tokenizer php7-simplexml php7-gd php7-gmp php7-gettext php7-pcntl \
-		php7-mysqli php7-sockets composer \
+		php7-mysqli php7-sockets php7-ctype php7-pecl-mcrypt php7-xmlrpc       \
+    php7-session composer \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html;
 
