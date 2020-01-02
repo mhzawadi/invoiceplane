@@ -13,6 +13,4 @@ printf "\n<Directory \"/var/www/html\">\n\tAllowOverride All\n</Directory>\n" >>
 ln -sf /dev/stdout /var/log/apache2/access.log
 ln -sf /dev/stderr /var/log/apache2/error.log
 
-cp /jukebox/src/config/config.docker.php /jukebox/src/config/config.php
-
 httpd -D FOREGROUND
