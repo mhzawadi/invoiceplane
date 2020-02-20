@@ -23,10 +23,10 @@ Here, we store data on the host system under `/my_dir/invoiceplane` and use a sp
 ### InvoicePlane
 
 ```bash
-$ docker run -ti -d -p 80:80 --name invoiceplane --link invoiceplane-mysql:mysql mhzawadi/invoiceplane
+$ docker run -ti -d -p 80:80 --name invoiceplane --link invoiceplane-mysql:mysql -e HOST_URL=127.0.0.1 mhzawadi/invoiceplane
 ```
 
-We are linking the two containers and expose the HTTP port.
+We are linking the two containers and expose the HTTP port with a host URL of 127.0.0.1, you need to set the HOST_URL as nginx uses this to accept in comming requests.
 
 ### persistent config
 
