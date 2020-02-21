@@ -12,9 +12,9 @@ RUN apk update                             \
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
     IP_VERSION="v1.5.9" \
-    MYSQL_HOST="localhost" \
-    MYSQL_USER="invoiceplane" \
-    MYSQL_PASSWORD="invoiceplane" \
+    MYSQL_HOST="mysql" \
+    MYSQL_USER="root" \
+    MYSQL_PASSWORD="my-secret-pw" \
     MYSQL_DB="invoiceplane" \
     MYSQL_PORT="3306" \
     IP_URL="http://127.0.0.1" \
