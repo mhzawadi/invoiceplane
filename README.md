@@ -28,6 +28,22 @@ $ docker run -ti -d -p 80:80 --name invoiceplane --link invoiceplane-mysql:mysql
 
 We are linking the two containers and expose the HTTP port with a host URL of 127.0.0.1, you need to set the HOST_URL as nginx uses this to accept incoming requests.
 
+### Docker compose
+
+You can get an all-in-one YAML deployment descriptor with Docker compose, like this :
+
+```
+curl https://github.com/mhzawadi/invoiceplane/blob/master/docker-compose.yml
+docker-compose up -d
+```
+
+If your using docker swarm you can get a stack that has the same setup:
+
+```
+curl https://github.com/mhzawadi/invoiceplane/blob/master/stack-invoiceplane.yml
+docker stack deploy --compose-file stack-invoiceplane.yml invoiceplane
+```
+
 ### persistent config
 
 if you run docker swarm, you can add your config to docker swarm config and have it persist across containers.

@@ -1,0 +1,62 @@
+version: '3.5'
+
+# docker stack deploy --compose-file stack-invoiceplane.yml invoiceplane
+
+volumes:
+  invoiceplane_data:
+  mariadb_10_4:
+
+services:
+  proxyv2:
+    image: traefik:v2.0 # The official Traefik docker image
+    command:
+      - "--api.insecure=true"
+      - "--providers.docker"
+      - "--providers.docker.swarmMode=true"
+    ports:
+      - "80:80"     # The HTTP port
+      - "443:443"   # The HTTP port
+      - "8181:8080" # The Web UI (enabled by --api)
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock # So that Traefik can listen to the Docker events
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=false"
+  invoiceplane:
+    image: mhzawadi/invoiceplane:v1.5.9.2
+    volumes:
+      - invoiceplane_data:/var/www/html/uploads
+    environment:
+      - TZ=utc
+      - MYSQL_HOST=mariadb_10_4
+      - MYSQL_USER=InvoicePlane
+      - MYSQL_PASSWORD=invoiceplane
+      - MYSQL_DB=InvoicePlane
+      - HOST_URL=invoiceplane.docker.local
+      - IP_URL=http://invoiceplane.docker.local
+      - DISABLE_SETUP=true
+    deploy:
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      labels:
+        - "traefik.http.routers.invoiceplane.rule=Host(`invoiceplane.docker.local`)"
+        - "traefik.http.routers.invoiceplane.service=invoiceplane"
+        - "traefik.http.services.invoiceplane.loadbalancer.server.port=80"
+  mariadb_10_4:
+    # MySQL 5.7
+    image: mariadb:10.4.10
+    volumes:
+      - mariadb_10_4:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=mysql_password
+      - MYSQL_DATABASE=InvoicePlane
+      - MYSQL_USER=InvoicePlane
+      - MYSQL_PASSWORD=invoiceplane
+    deploy:
+      mode: replicated
+      replicas: 1
+      labels:
+        - "traefik.enable=false"
