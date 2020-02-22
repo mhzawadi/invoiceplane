@@ -11,7 +11,7 @@ RUN apk update                             \
   	&& mkdir -p /run/nginx;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
-    IP_VERSION="v1.5.9" \
+    IP_VERSION="v1.5.10" \
     MYSQL_HOST="mysql" \
     MYSQL_USER="root" \
     MYSQL_PASSWORD="my-secret-pw" \

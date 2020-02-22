@@ -34,7 +34,6 @@ services:
       - MYSQL_USER=InvoicePlane
       - MYSQL_PASSWORD=invoiceplane
       - MYSQL_DB=InvoicePlane
-      - HOST_URL=invoiceplane.docker.local
       - IP_URL=http://invoiceplane.docker.local
       - DISABLE_SETUP=true
     deploy:
