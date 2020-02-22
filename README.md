@@ -67,3 +67,9 @@ You can use following tags on Docker hub:
 
 * `latest` - latest stable release
 * `v1.5.9.1` - latest stable release for the 1.5.9 version build number 1
+
+### how to build
+
+Latest is build from the docker hub once I push to the github repo, the arm versions are built from my mac with the below buildx tool
+
+`docker buildx build --platform linux/amd64,linux/arm64 -t mhzawadi/invoiceplane:v1.5.10.1 --push .`
