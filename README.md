@@ -72,4 +72,4 @@ You can use following tags on Docker hub:
 
 Latest is build from the docker hub once I push to the github repo, the arm versions are built from my mac with the below buildx tool
 
-`docker buildx build --platform linux/amd64,linux/arm64 -t mhzawadi/invoiceplane:v1.5.10.1 --push .`
+`docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t mhzawadi/invoiceplane:v1.5.10.1 --push .`
