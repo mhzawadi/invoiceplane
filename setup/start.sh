@@ -14,6 +14,7 @@ sed \
   -e "s!IP_URL=!IP_URL=${IP_URL}!" \
   -e "s/DISABLE_SETUP=false/DISABLE_SETUP=${DISABLE_SETUP}/" \
 /var/www/html/ipconfig.php.example > /var/www/html/ipconfig.php;
+chown nobody:nginx /var/www/html/ipconfig.php;
 
 php-fpm7
 

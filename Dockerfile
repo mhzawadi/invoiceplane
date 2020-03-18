@@ -28,7 +28,7 @@ ADD ${IP_SOURCE}/${IP_VERSION}/${IP_VERSION}.zip /tmp/
 RUN unzip /tmp/${IP_VERSION}.zip           && \
     chmod +x /config/start.sh; \
     cp /config/php.ini /etc/php7/php.ini && \
-		cp /config/php_fpm_site.conf /etc/php7/php-fpm.d/www.conf; \
+    cp /config/php_fpm_site.conf /etc/php7/php-fpm.d/www.conf; \
     chown nobody:nginx /var/www/html/* -R;
 
 VOLUME /var/www/html/uploads
