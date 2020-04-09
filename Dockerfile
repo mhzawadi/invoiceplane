@@ -35,3 +35,7 @@ VOLUME /var/www/html/uploads
 EXPOSE 80
 ENTRYPOINT ["/config/start.sh"]
 CMD ["nginx", "-g", "daemon off;"]
+
+## Health Check
+HEALTHCHECK --interval=5m --timeout=3s --start-period=5s \
+  CMD curl -f http://127.0.0.1/index.php || exit 1
