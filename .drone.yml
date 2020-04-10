@@ -1,126 +1,35 @@
 ---
 kind: pipeline
 type: docker
-name: amd64
+name: buildx
 
 platform:
   os: linux
   arch: amd64
 
-steps:
-  - name: publish
-    image: plugins/docker
-    settings:
-      repo: mhzawadi/${DRONE_REPO_NAME}
-      auto_tag: false
-      tags:
-        - v1.5.9-amd64
-        - latest-amd64
-      username:
-        from_secret: dockerhub_username
-      password:
-        from_secret: dockerhub_password
-
----
-kind: pipeline
-type: docker
-name: arm32
-
-platform:
-  os: linux
-  arch: arm
+volumes:
+  - name: docker_socket
+    host:
+      path: /var/run/docker.sock
 
 steps:
-  - name: publish
-    image: plugins/docker
-    settings:
-      repo: mhzawadi/${DRONE_REPO_NAME}
-      auto_tag: false
-      tags:
-        - v1.5.9-arm
-        - latest-arm
-      username:
-        from_secret: dockerhub_username
-      password:
-        from_secret: dockerhub_password
-
----
-kind: pipeline
-type: docker
-name: arm64
-
-platform:
-  os: linux
-  arch: arm64
-
-steps:
-  - name: publish
-    image: plugins/docker
-    settings:
-      repo: mhzawadi/${DRONE_REPO_NAME}
-      auto_tag: false
-      tags:
-        - v1.5.9-arm64
-        - latest-arm64
-      username:
-        from_secret: dockerhub_username
-      password:
-        from_secret: dockerhub_password
-
----
-kind: pipeline
-type: docker
-name: manifest
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: manifest
-  image: plugins/manifest
-  settings:
-    username:
-      from_secret: dockerhub_username
-    password:
-      from_secret: dockerhub_password
-    target: mhzawadi/${DRONE_REPO_NAME}:v1.5.9
-    template: mhzawadi/${DRONE_REPO_NAME}:v1.5.9-ARCH
-    platforms:
-      - linux/arm
-      - linux/arm64
-      - linux/amd64
-depends_on:
-  - amd64
-  - arm64
-  - arm32
-
----
-kind: pipeline
-type: docker
-name: manifest_latest
-
-platform:
-  os: linux
-  arch: amd64
-
-steps:
-- name: manifest
-  image: plugins/manifest
-  settings:
-    username:
-      from_secret: dockerhub_username
-    password:
-      from_secret: dockerhub_password
-    target: mhzawadi/${DRONE_REPO_NAME}:latest
-    template: mhzawadi/${DRONE_REPO_NAME}:latest-ARCH
-    platforms:
-      - linux/arm
-      - linux/arm64
-      - linux/amd64
-depends_on:
-  - arm64
-  - arm32
+- name: build
+  image: alexviscreanu/buildx
+  commands:
+    - docker run --rm --privileged docker/binfmt:a7996909642ee92942dcd6cff44b9b95f08dad64
+    - docker buildx create --use --name amd-arm
+    - docker buildx inspect --bootstrap
+    - docker login --username $DOCKER_USERNAME --password $DOCKER_PASSWORD
+    - docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 $DRONE_REPO .
+    - docker buildx rm amd-arm
+  volumes:
+    - name: docker_socket
+      path: /var/run/docker.sock
+  environment:
+    DOCKER_USERNAME:
+        from_secret: docker_username
+    DOCKER_PASSWORD:
+        from_secret: docker_password
 
 ---
 kind: pipeline
@@ -146,5 +55,4 @@ steps:
         from_secret: telegram_user
 
 depends_on:
-  - manifest
-  - manifest_latest
+  - buildx
