@@ -32,7 +32,7 @@ platform:
 
 steps:
   - name: publish
-    image: plugins/docker
+    image: plugins/docker:linux-arm
     settings:
       repo: mhzawadi/${DRONE_REPO_NAME}
       auto_tag: false
@@ -55,7 +55,7 @@ platform:
 
 steps:
   - name: publish
-    image: plugins/docker
+    image: plugins/dockerlinux-arm64
     settings:
       repo: mhzawadi/${DRONE_REPO_NAME}
       auto_tag: false
