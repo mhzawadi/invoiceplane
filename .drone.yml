@@ -30,6 +30,11 @@ platform:
   os: linux
   arch: arm
 
+clone:
+  default:
+    image: plugins/git:linux-arm
+    depth: 50
+
 steps:
   - name: publish
     image: plugins/docker:linux-arm
@@ -52,10 +57,14 @@ name: arm64
 platform:
   os: linux
   arch: arm64
+clone:
+  default:
+    image: plugins/git:linux-arm64
+    depth: 50
 
 steps:
   - name: publish
-    image: plugins/docker:linux-arm64
+    image: plugins/dockerlinux-arm64
     settings:
       repo: mhzawadi/${DRONE_REPO_NAME}
       auto_tag: false
