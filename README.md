@@ -3,6 +3,7 @@
 </p>
 <p>&nbsp;</p>
 <p align="center"><a href="https://hub.docker.com/r/mhzawadi/invoiceplane"><img alt="Docker Pulls" src="https://img.shields.io/docker/pulls/mhzawadi/invoiceplane.svg"></a></p>
+<p><img alt="Github Work flow" src="https://img.shields.io/github/workflow/status/mhzawadi/invoiceplane/build%20our%20image%20for%20latest?label=Docker%20Build">
 <p align="center" bgcolor="#429ae1"><b>InvoicePlane is a self-hosted open source application for managing your invoices, clients and payments.<br>
   For more information visit <a href="https://invoiceplane.com">InvoicePlane.com</a> or try the <a href="https://demo.invoiceplane.com">Demo</a>.</b></p>
 
