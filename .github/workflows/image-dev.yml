@@ -1,12 +1,11 @@
-name: build our image for a tagged version
+name: build our image for dev
 
 on:
   push:
-    tags:
-      - v*
+    branches: dev
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
@@ -18,15 +17,10 @@ jobs:
         uses: docker/setup-buildx-action@v1
       - name: Available platforms
         run: echo ${{ steps.buildx.outputs.platforms }}
-      - name: Prepare
-        id: prepare
-        run: |
-          VERSION=${GITHUB_REF#refs/tags/v}
-          echo ::set-output name=version::${VERSION}
       - name: login to docker hub
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
       - name: build the image
         run: |
           docker buildx build --push \
-            --tag "mhzawadi/invoiceplane:${{ steps.prepare.outputs.version }}" \
+            --tag mhzawadi/invoiceplane:dev \
             --platform linux/amd64,linux/arm64,linux/arm/v7 .

@@ -8,11 +8,10 @@ volumes:
 
 services:
   proxyv2:
-    image: traefik:v2.0 # The official Traefik docker image
+    image: traefik:v2.5 # The official Traefik docker image
     command:
       - "--api.insecure=true"
       - "--providers.docker"
-      - "--providers.docker.swarmMode=true"
     ports:
       - "80:80"     # The HTTP port
       - "443:443"   # The HTTP port
@@ -22,7 +21,7 @@ services:
     labels:
       - "traefik.enable=false"
   invoiceplane:
-    image: mhzawadi/invoiceplane:v1.5.10.2
+    image: mhzawadi/invoiceplane:latest
     volumes:
       - invoiceplane_data:/var/www/html/uploads
     environment:
