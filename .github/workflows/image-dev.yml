@@ -1,11 +1,11 @@
-name: build our image for latest
+name: build our image for dev
 
 on:
   push:
-    branches: master
+    branches: dev
 
 jobs:
-  docker:
+  build:
     runs-on: ubuntu-latest
     steps:
       - name: checkout code
@@ -21,5 +21,5 @@ jobs:
       - name: build the image
         run: |
           docker buildx build --push \
-            --tag mhzawadi/invoiceplane:latest \
+            --tag mhzawadi/invoiceplane:dev \
             --platform linux/amd64,linux/arm64,linux/arm/v7 .

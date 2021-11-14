@@ -9,31 +9,23 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
+      - name: checkout code
+        uses: actions/checkout@v2
+      - name: install buildx
+        id: buildx
+        uses: crazy-max/ghaction-docker-buildx@v3
+        with:
+          version: latest
+          qemu-version: latest
       - name: Prepare
         id: prepare
         run: |
           VERSION=${GITHUB_REF#refs/tags/v}
-          echo ::set-output name=version::${VERSION}    
-      -
-        name: Checkout
-        uses: actions/checkout@v2
-      -
-        name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      -
-        name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      -
-        name: Login to DockerHub
-        uses: docker/login-action@v1 
-        with:
-          username: "${{ secrets.DOCKER_USERNAME }}"
-          password: "${{ secrets.DOCKER_PASSWORD }}"
-      -
-        name: Build and push
-        uses: docker/build-push-action@v2
-        with:
-          context: .
-          platforms: linux/amd64,linux/arm/v7,linux/arm64
-          push: true
-          tags: mhzawadi/invoiceplane:${{ steps.prepare.outputs.version }}
+          echo ::set-output name=version::${VERSION}
+      - name: login to docker hub
+        run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
+      - name: build the image
+        run: |
+          docker buildx build --push \
+            --tag "mhzawadi/invoiceplane:${{ steps.prepare.outputs.version }}" \
+            --platform linux/amd64,linux/arm64,linux/arm/v7 .
