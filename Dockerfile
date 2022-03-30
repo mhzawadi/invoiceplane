@@ -4,8 +4,8 @@ MAINTAINER Matthew Horwood <matt@horwood.biz>
 RUN apk update                             \
     &&  apk add nginx php7-fpm php7-curl php7-dom php7-xml php7-xmlwriter    \
     php7-tokenizer php7-simplexml php7-gd php7-gmp php7-gettext php7-pcntl \
-		php7-mysqli php7-sockets php7-ctype php7-pecl-mcrypt php7-xmlrpc       \
-    php7-session composer curl\
+		php7-mysqli php7-sockets php7-ctype php7-pecl-mcrypt php7-xmlrpc php7-json \
+    php7-session php7-mbstring php7-openssl composer curl\
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
   	&& mkdir -p /run/nginx;
