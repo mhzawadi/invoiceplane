@@ -22,10 +22,11 @@ docker run --name invoiceplane-mysql -e MYSQL_ROOT_PASSWORD=my-secret-pw \
  -e MYSQL_DATABASE=invoiceplane \
  -e MYSQL_USER=invoiceplane \
  -e MYSQL_PASSWORD=my-secret-pw \
- -v /my_dir/invoiceplane:/var/lib/mysql -d mysql:5.6
+ -v /my_dir/invoiceplane:/var/lib/mysql -d mysql:5.7
 ```
 
-Here, we store data on the host system under `/my_dir/invoiceplane` and use a specific root password.
+This will start MySQL, set the root password and create a database for invoiceplane.
+This does take some time, so dont try to get invoiceplane setup too quick
 
 ### InvoicePlane
 
@@ -33,9 +34,7 @@ Here, we store data on the host system under `/my_dir/invoiceplane` and use a sp
 docker run -ti -d -p 80:80 --name invoiceplane --link invoiceplane-mysql:mysql mhzawadi/invoiceplane
 ```
 
-We are linking the two containers and expose the HTTP port with a host URL of 127.0.0.1, you need to set the HOST_URL as nginx uses this to accept incoming requests.
-
-This will also setup a database called invoiceplane with the invoiceplane user having superuser access to this database
+We are linking the two containers and expose the HTTP port, once MySQL is up and running setup of invoiceplane should be quick.
 
 ### Docker compose
 
