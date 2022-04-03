@@ -21,7 +21,7 @@ services:
     labels:
       - "traefik.enable=false"
   invoiceplane:
-    image: mhzawadi/invoiceplane:latest
+    image: mhzawadi/invoiceplane:dev
     volumes:
       - invoiceplane_data:/var/www/html/uploads
     environment:
@@ -31,7 +31,7 @@ services:
       - MYSQL_PASSWORD=invoiceplane
       - MYSQL_DB=InvoicePlane
       - IP_URL=http://invoiceplane.docker.local
-      - DISABLE_SETUP=true
+      - DISABLE_SETUP=false
     labels:
       - "traefik.http.routers.invoiceplane.rule=Host(`invoiceplane.docker.local`)"
       - "traefik.http.routers.invoiceplane.service=invoiceplane"
