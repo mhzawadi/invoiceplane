@@ -36,6 +36,8 @@ docker run -ti -d -p 80:80 --name invoiceplane --link invoiceplane-mysql:mysql m
 
 We are linking the two containers and expose the HTTP port, once MySQL is up and running setup of invoiceplane should be quick.
 
+This will also setup a database called invoiceplane with the invoiceplane user having superuser access to this database
+
 ### Docker compose
 
 You can get an all-in-one YAML deployment descriptor with Docker compose, like this :
