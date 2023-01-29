@@ -18,6 +18,6 @@ fi
 
 chown nobody:nginx /var/www/html/ipconfig.php;
 
-php-fpm7
+php-fpm81
 
 exec "$@"
