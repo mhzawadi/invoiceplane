@@ -2,7 +2,7 @@ FROM alpine:3.17
 MAINTAINER Matthew Horwood <matt@horwood.biz>
 
 RUN apk update                             \
-    &&  apk add nginx php81-fpm \
+    &&  apk add nginx php81-fpm php81-session \
     php81-gd php81-mbstring php81-mysqli php81-openssl \
     php81-xml php81-intl php81-bcmath composer curl \
     && rm -f /var/cache/apk/* \
