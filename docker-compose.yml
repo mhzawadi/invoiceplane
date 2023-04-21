@@ -43,8 +43,8 @@ services:
       - mariadb_10_4:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysql_password
-      - MYSQL_DATABASE=InvoicePlane
-      - MYSQL_USER=InvoicePlane
+      - MYSQL_DATABASE=invoiceplane
+      - MYSQL_USER=invoiceplane
       - MYSQL_PASSWORD=invoiceplane
     labels:
       - "traefik.enable=false"
