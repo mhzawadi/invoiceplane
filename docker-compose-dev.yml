@@ -21,9 +21,10 @@ services:
     labels:
       - "traefik.enable=false"
   invoiceplane:
-    image: mhzawadi/invoiceplane:dev
+    image: mhzawadi/invoiceplane:dev-code
     volumes:
       - invoiceplane_data:/var/www/html/uploads
+      - /Users/matt/git/code-InvoicePlane:/var/www/html
     environment:
       - TZ=utc
       - MYSQL_HOST=mariadb_10_4
@@ -43,8 +44,8 @@ services:
       - mariadb_10_4:/var/lib/mysql
     environment:
       - MYSQL_ROOT_PASSWORD=mysql_password
-      - MYSQL_DATABASE=invoiceplane
-      - MYSQL_USER=invoiceplane
+      - MYSQL_DATABASE=InvoicePlane
+      - MYSQL_USER=InvoicePlane
       - MYSQL_PASSWORD=invoiceplane
     labels:
       - "traefik.enable=false"
