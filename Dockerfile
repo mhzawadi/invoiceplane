@@ -4,7 +4,7 @@ MAINTAINER Matthew Horwood <matt@horwood.biz>
 RUN apk update                             \
     &&  apk add nginx php81-fpm php81-session \
     php81-gd php81-mbstring php81-mysqli php81-openssl \
-    php81-xml php81-intl php81-bcmath composer curl \
+    php81-xml php81-dom php81-intl php81-bcmath composer curl \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
   	&& mkdir -p /run/nginx;
