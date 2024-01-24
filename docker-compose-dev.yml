@@ -24,7 +24,6 @@ services:
     image: mhzawadi/invoiceplane:dev-code
     volumes:
       - invoiceplane_data:/var/www/html/uploads
-      - /Users/matt/git/code-InvoicePlane:/var/www/html
     environment:
       - TZ=utc
       - MYSQL_HOST=mariadb_10_4

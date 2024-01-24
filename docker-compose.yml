@@ -3,7 +3,9 @@ version: '3.5'
 # docker stack deploy --compose-file stack-invoiceplane.yml invoiceplane
 
 volumes:
-  invoiceplane_data:
+  invoiceplane_uploads:
+  invoiceplane_css:
+  invoiceplane_views:
   mariadb_10_4:
 
 services:
@@ -23,14 +25,17 @@ services:
   invoiceplane:
     image: mhzawadi/invoiceplane
     volumes:
-      - invoiceplane_data:/var/www/html/uploads
+      - invoiceplane_uploads:/var/www/html/uploads
+      - invoiceplane_css:/var/www/html/assets/core/css
+      - invoiceplane_views:/var/www/html/application/views
     environment:
       - TZ=utc
       - MYSQL_HOST=mariadb_10_4
-      - MYSQL_USER=InvoicePlane
+      - MYSQL_USER=invoiceplane
       - MYSQL_PASSWORD=invoiceplane
-      - MYSQL_DB=InvoicePlane
+      - MYSQL_DB=invoiceplane
       - IP_URL=http://invoiceplane.docker.local
+      - REMOVE_INDEXPHP=true
       - DISABLE_SETUP=false
     labels:
       - "traefik.http.routers.invoiceplane.rule=Host(`invoiceplane.docker.local`)"
