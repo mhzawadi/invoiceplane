@@ -74,7 +74,7 @@ Mount your config to `/var/www/html/ipconfig.php`
 Or you can pass all the config via environment variables, see below for some of the basics.
 Once you have your instance setup, you will want to collect the `ENCRYPTION_KEY` & `ENCRYPTION_CIPHER`. As that is used to store passwords.
 
-The below commands will collect the `ENCRYPTION_KEY` & `ENCRYPTION_CIPHER` and
+The below commands will display the `ENCRYPTION_KEY` & `ENCRYPTION_CIPHER`
 
 ```
 ID=$(docker ps | grep 'mhzawadi/invoiceplane' | awk '{print $1}');
@@ -84,7 +84,7 @@ docker exec -it "$ID" /bin/cat ipconfig.php | grep ENCRYPTION_CIPHER;
 
 Update your docker-compose file with them, also add `SETUP_COMPLETED=true`.
 
-the `environment` section should have some like the below
+the `environment` section of your `docker-compose.yml` should have some like the below
 
 ```
       - TZ=utc

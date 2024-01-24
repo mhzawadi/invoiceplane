@@ -31,10 +31,11 @@ services:
     environment:
       - TZ=utc
       - MYSQL_HOST=mariadb_10_4
-      - MYSQL_USER=InvoicePlane
+      - MYSQL_USER=invoiceplane
       - MYSQL_PASSWORD=invoiceplane
-      - MYSQL_DB=InvoicePlane
+      - MYSQL_DB=invoiceplane
       - IP_URL=http://invoiceplane.docker.local
+      - REMOVE_INDEXPHP=true
       - DISABLE_SETUP=false
     labels:
       - "traefik.http.routers.invoiceplane.rule=Host(`invoiceplane.docker.local`)"
