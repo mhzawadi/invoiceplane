@@ -13,6 +13,12 @@
 
 ## How to use this Docker image
 
+This image will export 3 directories, if you dont setup a volume for them Docker will.
+
+- /var/www/html/uploads (Uploaded images)
+- /var/www/html/assets/core/css (custom styles)
+- /var/www/html/application/views (Customized templates)
+
 ### Mysql
 
 Run a MySQL database, dedicated to invoiceplane
@@ -31,7 +37,12 @@ This does take some time, so dont try to get invoiceplane setup too quick
 ### InvoicePlane
 
 ```bash
-docker run -ti -d -p 80:80 --name invoiceplane --link invoiceplane-mysql:mysql mhzawadi/invoiceplane
+docker run -ti -d -p 80:80 --name invoiceplane \
+--link invoiceplane-mysql:mysql \
+--volume "/your/path/to/invoiceplane/uploads:/var/www/html/uploads" \
+--volume "/your/path/to/invoiceplane/assets:/var/www/html/assets/core/css" \
+--volume "/your/path/to/invoiceplane/views:/var/www/html/application/views" \
+mhzawadi/invoiceplane
 ```
 
 We are linking the two containers and expose the HTTP port, once MySQL is up and running setup of invoiceplane should be quick.
@@ -60,15 +71,45 @@ if you run docker swarm, you can add your config to docker swarm config and have
 
 Mount your config to `/var/www/html/ipconfig.php`
 
+Or you can pass all the config via environment variables, see below for some of the basics.
+Once you have your instance setup, you will want to collect the `ENCRYPTION_KEY` & `ENCRYPTION_CIPHER`. As that is used to store passwords.
+
+The below commands will display the `ENCRYPTION_KEY` & `ENCRYPTION_CIPHER`
+
+```
+ID=$(docker ps | grep 'mhzawadi/invoiceplane' | awk '{print $1}');
+docker exec -it "$ID" /bin/cat ipconfig.php | grep ENCRYPTION_KEY;
+docker exec -it "$ID" /bin/cat ipconfig.php | grep ENCRYPTION_CIPHER;
+```
+
+Update your docker-compose file with them, also add `SETUP_COMPLETED=true`.
+
+the `environment` section of your `docker-compose.yml` should have some like the below
+
+```
+      - TZ=utc
+      - MYSQL_HOST=mariadb_10_4
+      - MYSQL_USER=InvoicePlane
+      - MYSQL_PASSWORD=invoiceplane
+      - MYSQL_DB=InvoicePlane
+      - IP_URL=http://invoiceplane.docker.local
+      - DISABLE_SETUP=true
+      - SETUP_COMPLETED=true
+      - ENCRYPTION_CIPHER=base64:LgrA+4Df/kJvZIx+GBech8PRTYuO+lbIoF5CgJ59iJM=
+      - ENCRYPTION_CIPHER=AES-256
+```
+
 ### Environment variables summary
 
 - TZ: the timezone for PHP
+- IP_URL: This is the host that you will access the site on
+- REMOVE_INDEXPHP: To remove index.php from the URL
+  - the bundled nginx has the config to work with this set to `true`
 - MYSQL_HOST: the MySQL server
 - MYSQL_USER: the username for MySQL
 - MYSQL_PASSWORD: the password for MySQL
 - MYSQL_DB: the MySQL database
 - MYSQL_PORT: the MySQL port, if not 3306
-- IP_URL: This is the host that you will access the site on
 - DISABLE_SETUP: Have you run setup?
 
 ## Docker hub tags
