@@ -2,12 +2,14 @@ FROM alpine:3.19
 MAINTAINER Matthew Horwood <matt@horwood.biz>
 
 RUN apk update                             \
-    &&  apk add nginx php81-fpm php81-session \
-    php81-gd php81-mbstring php81-mysqli php81-openssl \
-    php81-xml php81-dom php81-intl php81-bcmath composer curl \
+    &&  apk add nginx php82-fpm php82-session \
+    php82-gd php82-mbstring php82-mysqli php82-openssl \
+    php82-xml php82-dom php82-intl php82-bcmath composer curl \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
-  	&& mkdir -p /run/nginx;
+  	&& mkdir -p /run/nginx; \
+    [ -f /usr/bin/php ] && rm -f /usr/bin/php; \
+    ln -s /usr/bin/php82 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
     IP_VERSION="v1.6.1" \
@@ -27,8 +29,8 @@ RUN cd /tmp && \
     unzip /tmp/${IP_VERSION}.zip && \
     cp -r ip/* /var/www/html/ && \
     chmod +x /config/start.sh; \
-    cp /config/php.ini /etc/php81/php.ini && \
-    cp /config/php_fpm_site.conf /etc/php81/php-fpm.d/www.conf; \
+    cp /config/php.ini /etc/php82/php.ini && \
+    cp /config/php_fpm_site.conf /etc/php82/php-fpm.d/www.conf; \
     cp /config/nginx_site.conf /etc/nginx/http.d/default.conf; \
     chown nobody:nginx /var/www/html/* -R;
 
