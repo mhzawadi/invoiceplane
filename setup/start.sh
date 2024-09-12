@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ln -s /dev/stdout /var/log/php81/error.log
+ln -s /dev/stdout /var/log/php82/error.log
 ln -s /dev/stdout /var/log/nginx/access.log
 ln -s /dev/stdout /var/log/nginx/error.log
 
@@ -10,7 +10,7 @@ then
   cp /var/www/html/ipconfig.php.example /var/www/html/ipconfig.php
 fi
 
-[ -n "$IP_URL" ] && sed -i -e "s!^IP_URL=$!IP_URL=${IP_URL}!" /var/www/html/ipconfig.php
+[ -n "$IP_URL" ] && sed -i -e "s!^IP_URL=\$!IP_URL=${IP_URL}!" /var/www/html/ipconfig.php
 [ -n "$ENABLE_DEBUG" ] && sed -i -e "s/ENABLE_DEBUG=.*/ENABLE_DEBUG=${ENABLE_DEBUG}/" /var/www/html/ipconfig.php
 [ -n "$DISABLE_SETUP" ] && sed -i -e "s/DISABLE_SETUP=.*/DISABLE_SETUP=${DISABLE_SETUP}/" /var/www/html/ipconfig.php
 [ -n "$REMOVE_INDEXPHP" ] && sed -i -e "s/REMOVE_INDEXPHP=.*/REMOVE_INDEXPHP=${REMOVE_INDEXPHP}/" /var/www/html/ipconfig.php
@@ -38,6 +38,6 @@ chown -R nobody:nginx /var/www/html/uploads;
 chown -R nobody:nginx /var/www/html/assets/core/css;
 chown -R nobody:nginx /var/www/html/application/views;
 
-php-fpm81
+php-fpm82
 
 exec "$@"
