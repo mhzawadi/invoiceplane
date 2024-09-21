@@ -33,6 +33,11 @@ if [ -n "$SETUP_COMPLETED" ]; then
     sed -i -e "s/SETUP_COMPLETED=.*/SETUP_COMPLETED=${SETUP_COMPLETED}/" /var/www/html/ipconfig.php
 fi
 
+[[ ! -d "/var/www/html/uploads/temp/mpdf/" ]] && mkdir -p "/var/www/html/uploads/temp/mpdf/"
+[[ ! -d "/var/www/html/uploads/customer_files/" ]] && mkdir -p "/var/www/html/uploads/customer_files/"
+[[ ! -d "/var/www/html/uploads/archive/" ]] && mkdir -p "/var/www/html/uploads/archive/"
+[[ ! -d "/var/www/html/application/logs/" ]] && mkdir -p "/var/www/html/application/logs/"
+
 chown nobody:nginx /var/www/html/ipconfig.php;
 chown -R nobody:nginx /var/www/html/uploads;
 chown -R nobody:nginx /var/www/html/assets/core/css;
