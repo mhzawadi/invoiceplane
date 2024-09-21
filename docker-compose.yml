@@ -36,7 +36,7 @@ services:
       - MYSQL_DB=invoiceplane
       - IP_URL=http://invoiceplane.docker.local
       - REMOVE_INDEXPHP=true
-      - DISABLE_SETUP=false
+      - SETUP_COMPLETED=false
     labels:
       - "traefik.http.routers.invoiceplane.rule=Host(`invoiceplane.docker.local`)"
       - "traefik.http.routers.invoiceplane.service=invoiceplane"
