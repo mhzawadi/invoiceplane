@@ -65,6 +65,11 @@ curl https://github.com/mhzawadi/invoiceplane/blob/master/stack-invoiceplane.yml
 docker stack deploy --compose-file stack-invoiceplane.yml invoiceplane
 ```
 
+#### Using the traefik proxy
+
+If you use the above compose file, you will need to update your `/etc/hosts` file.
+you will need to add `127.0.0.1 invoiceplane.docker.local` to it in order that traefik does its routing, else you will get a `404` error page.
+
 ### persistent config
 
 if you run docker swarm, you can add your config to docker swarm config and have it persist across containers.
