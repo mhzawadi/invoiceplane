@@ -1,4 +1,4 @@
-FROM alpine:3.19
+FROM alpine:3.21.0
 MAINTAINER Matthew Horwood <matt@horwood.biz>
 
 RUN apk update                             \
