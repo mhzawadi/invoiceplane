@@ -12,7 +12,7 @@ RUN apk update                             \
     ln -s /usr/bin/php82 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
-    IP_VERSION="v1.6.1" \
+    IP_VERSION="v1.6.2" \
     MYSQL_HOST="mysql" \
     MYSQL_USER="root" \
     MYSQL_PASSWORD="my-secret-pw" \
