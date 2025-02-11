@@ -7,7 +7,7 @@ RUN apk update                             \
     php81-xml php81-dom php81-intl php81-bcmath composer curl \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
-  	&& mkdir -p /run/nginx; \
+    && mkdir -p /run/nginx; \
     [ -f /usr/bin/php ] && rm -f /usr/bin/php; \
     ln -s /usr/bin/php81 /usr/bin/php;
 
