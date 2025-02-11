@@ -65,6 +65,11 @@ curl https://github.com/mhzawadi/invoiceplane/blob/master/stack-invoiceplane.yml
 docker stack deploy --compose-file stack-invoiceplane.yml invoiceplane
 ```
 
+#### Using the traefik proxy
+
+If you use the above compose file, you will need to update your `/etc/hosts` file.
+you will need to add `127.0.0.1 invoiceplane.docker.local` to it in order that traefik does its routing, else you will get a `404` error page.
+
 ### persistent config
 
 if you run docker swarm, you can add your config to docker swarm config and have it persist across containers.
@@ -93,7 +98,6 @@ the `environment` section of your `docker-compose.yml` should have some like the
       - MYSQL_PASSWORD=invoiceplane
       - MYSQL_DB=InvoicePlane
       - IP_URL=http://invoiceplane.docker.local
-      - DISABLE_SETUP=true
       - SETUP_COMPLETED=true
       - ENCRYPTION_CIPHER=base64:LgrA+4Df/kJvZIx+GBech8PRTYuO+lbIoF5CgJ59iJM=
       - ENCRYPTION_CIPHER=AES-256
@@ -110,14 +114,14 @@ the `environment` section of your `docker-compose.yml` should have some like the
 - MYSQL_PASSWORD: the password for MySQL
 - MYSQL_DB: the MySQL database
 - MYSQL_PORT: the MySQL port, if not 3306
-- DISABLE_SETUP: Have you run setup?
+- SETUP_COMPLETED: Have you run setup?
 
 ## Docker hub tags
 
 You can use following tags on Docker hub:
 
 * `latest` - latest stable release
-* `v1.5.9.1` - latest stable release for the 1.5.9 version build number 1
+* `v1.6.1.3` - latest stable release for the 1.6.1 version build number 3
 
 ### how to build
 
