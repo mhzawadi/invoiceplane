@@ -28,15 +28,30 @@ fi
 
 ### CRITICAL
 if [ -n "$SETUP_COMPLETED" ]; then
-    [ -n "$ENCRYPTION_KEY" ] && sed -i -e "s/ENCRYPTION_KEY=.*/ENCRYPTION_KEY=${ENCRYPTION_KEY}/" /var/www/html/ipconfig.php
-    [ -n "$ENCRYPTION_CIPHER" ] && sed -i -e "s/ENCRYPTION_CIPHER=.*/ENCRYPTION_CIPHER=${ENCRYPTION_CIPHER}/" /var/www/html/ipconfig.php
-    sed -i -e "s/SETUP_COMPLETED=.*/SETUP_COMPLETED=${SETUP_COMPLETED}/" /var/www/html/ipconfig.php
+    [ -n "$ENCRYPTION_KEY" ] && sed -i -e "s/ENCRYPTION_KEY=.*/ENCRYPTION_KEY=${ENCRYPTION_KEY}/" /var/www/html/ipconfig.php;
+    [ -n "$ENCRYPTION_CIPHER" ] && sed -i -e "s/ENCRYPTION_CIPHER=.*/ENCRYPTION_CIPHER=${ENCRYPTION_CIPHER}/" /var/www/html/ipconfig.php;
+    sed -i -e "s/SETUP_COMPLETED=.*/SETUP_COMPLETED=${SETUP_COMPLETED}/" /var/www/html/ipconfig.php;
 fi
 
-[[ ! -d "/var/www/html/uploads/temp/mpdf/" ]] && mkdir -p "/var/www/html/uploads/temp/mpdf/"
-[[ ! -d "/var/www/html/uploads/customer_files/" ]] && mkdir -p "/var/www/html/uploads/customer_files/"
-[[ ! -d "/var/www/html/uploads/archive/" ]] && mkdir -p "/var/www/html/uploads/archive/"
 [[ ! -d "/var/www/html/application/logs/" ]] && mkdir -p "/var/www/html/application/logs/"
+
+### Setup custom uploads
+if [ ! -f "/var/www/html/uploads/index.html" ]
+then
+  cp -r /tmp/ip/uploads/* /var/www/html/uploads/
+fi
+
+### Setup custom CSS
+if [ ! -f "/var/www/html/assets/core/css/custom.css" ]
+then
+  cp -r /tmp/ip/assets/core/css/* /var/www/html/assets/core/css/
+fi
+
+### Setup custom views
+if [ ! -f "/var/www/html/application/views/index.html" ]
+then
+  cp -r /tmp/ip/application/views/* /var/www/html/application/views/
+fi
 
 chown nobody:nginx /var/www/html/ipconfig.php;
 chown -R nobody:nginx /var/www/html/uploads;

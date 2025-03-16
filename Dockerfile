@@ -1,5 +1,5 @@
 FROM alpine:3.19
-MAINTAINER Matthew Horwood <matt@horwood.biz>
+LABEL org.opencontainers.image.authors="matt@horwood.biz"
 
 RUN apk update                             \
     &&  apk add nginx php81-fpm php81-session \
@@ -7,10 +7,12 @@ RUN apk update                             \
     php81-xml php81-dom php81-intl php81-bcmath composer curl \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
-  	&& mkdir -p /run/nginx;
+    && mkdir -p /run/nginx; \
+    [ -f /usr/bin/php ] && rm -f /usr/bin/php; \
+    ln -s /usr/bin/php81 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
-    IP_VERSION="v1.6.1" \
+    IP_VERSION="v1.6.2" \
     MYSQL_HOST="mysql" \
     MYSQL_USER="root" \
     MYSQL_PASSWORD="my-secret-pw" \
