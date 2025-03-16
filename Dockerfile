@@ -1,5 +1,5 @@
 FROM alpine:3.19
-MAINTAINER Matthew Horwood <matt@horwood.biz>
+LABEL org.opencontainers.image.authors="matt@horwood.biz"
 
 RUN apk update                             \
     &&  apk add nginx php81-fpm php81-session \

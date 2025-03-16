@@ -54,14 +54,14 @@ This will also setup a database called invoiceplane with the invoiceplane user h
 You can get an all-in-one YAML deployment descriptor with Docker compose, like this :
 
 ```
-curl https://github.com/mhzawadi/invoiceplane/blob/master/docker-compose.yml
+curl https://raw.githubusercontent.com/mhzawadi/invoiceplane/blob/master/docker-compose.yml
 docker-compose up -d
 ```
 
 If your using docker swarm you can get a stack that has the same setup:
 
 ```
-curl https://github.com/mhzawadi/invoiceplane/blob/master/stack-invoiceplane.yml
+curl https://raw.githubusercontent.com/mhzawadi/invoiceplane/blob/master/stack-invoiceplane.yml
 docker stack deploy --compose-file stack-invoiceplane.yml invoiceplane
 ```
 
