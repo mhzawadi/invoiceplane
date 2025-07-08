@@ -120,6 +120,17 @@ the `environment` section of your `docker-compose.yml` should have some like the
 - MYSQL_PORT: the MySQL port, if not 3306
 - SETUP_COMPLETED: Have you run setup?
 
+#### Reverse Proxy IPs
+
+If your server is behind a reverse proxy, you must whitelist the proxy IP addresses from which CodeIgniter should trust headers such as HTTP_X_FORWARDED_FOR and HTTP_CLIENT_IP in order to properly identify the visitor's IP address.
+
+You can use both an array or a comma-separated list of proxy addresses, as well as specifying whole subnets. Here are a few examples:
+
+- Comma-separated:
+  - `PROXY_IPS='10.0.1.200,192.168.5.0/24'`
+- Array:		
+  - `PROXY_IPS=array('10.0.1.200', '192.168.5.0/24')`
+
 ## Docker hub tags
 
 You can use following tags on Docker hub:
