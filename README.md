@@ -49,6 +49,10 @@ We are linking the two containers and expose the HTTP port, once MySQL is up and
 
 This will also setup a database called invoiceplane with the invoiceplane user having superuser access to this database
 
+### Upgrading
+
+If you have a running container, you will need to set `DISABLE_SETUP` to false. Then goto `http://yourdomain.com/index.php/setup` and follow the instructions. 
+
 ### Docker compose
 
 You can get an all-in-one YAML deployment descriptor with Docker compose, like this :
