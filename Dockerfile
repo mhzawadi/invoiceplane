@@ -13,8 +13,8 @@ RUN apk update                             \
     ln -s /usr/bin/php81 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
-    IP_VERSION="v1.6.2" \
-    MYSQL_HOST="mysql" \
+    IP_VERSION="v1.6.3" \
+    MYSQL_HOST="mariadb_10_4" \
     MYSQL_USER="root" \
     MYSQL_PASSWORD="my-secret-pw" \
     MYSQL_DB="invoiceplane" \
