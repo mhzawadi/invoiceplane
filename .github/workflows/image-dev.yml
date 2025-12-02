@@ -3,7 +3,9 @@ name: build our image for dev
 on:
   workflow_dispatch:
   push:
-    branches: dev
+    branches: 
+      - dev
+      - dev-1.7
 
 jobs:
   build:
