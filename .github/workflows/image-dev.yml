@@ -3,7 +3,7 @@ name: build our image for dev
 on:
   workflow_dispatch:
   push:
-    branches: 
+    branches:
       - dev
 
 jobs:
@@ -23,4 +23,4 @@ jobs:
         with:
           push: true
           platforms: linux/amd64,linux/amd64/v2,linux/amd64/v3,linux/386,linux/arm64,linux/arm/v8,linux/arm/v7,linux/arm/v6,linux/ppc64le,linux/s390x
-          tags: mhzawadi/invoiceplane:dev
+          tags: mhzawadi/invoiceplane:dev-1.7
