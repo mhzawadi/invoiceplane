@@ -65,6 +65,6 @@ chown -R nobody:nginx /var/www/html/uploads;
 chown -R nobody:nginx /var/www/html/assets/core/css;
 chown -R nobody:nginx /var/www/html/application/views;
 
-php-fpm81
+php-fpm82
 
 exec "$@"
