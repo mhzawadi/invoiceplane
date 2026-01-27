@@ -1,19 +1,19 @@
-FROM alpine:3.22
+FROM alpine:3.23
 LABEL org.opencontainers.image.authors="matt@horwood.biz"
 
 RUN apk update                             \
-    &&  apk add nginx php82-fpm php82-session \
-    php82-gd php82-mbstring php82-mysqli php82-openssl \
-    php82-xml php82-dom php82-intl php82-bcmath php82-iconv \
+    &&  apk add nginx php83-fpm php83-session \
+    php83-gd php83-mbstring php83-mysqli php83-openssl \
+    php83-xml php83-dom php83-intl php83-bcmath php83-iconv \
     composer curl \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
     && mkdir -p /run/nginx; \
     [ -f /usr/bin/php ] && rm -f /usr/bin/php; \
-    ln -s /usr/bin/php82 /usr/bin/php;
+    ln -s /usr/bin/php83 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
-    IP_VERSION="v1.7.0-beta-1" \
+    IP_VERSION="v1.7.0" \
     MYSQL_HOST="mariadb_10_4" \
     MYSQL_USER="root" \
     MYSQL_PASSWORD="my-secret-pw" \
@@ -30,8 +30,8 @@ RUN cd /tmp && \
     unzip /tmp/${IP_VERSION}.zip && \
     cp -r ip/* /var/www/html/ && \
     chmod +x /config/start.sh; \
-    cp /config/php.ini /etc/php82/php.ini && \
-    cp /config/php_fpm_site.conf /etc/php82/php-fpm.d/www.conf; \
+    cp /config/php.ini /etc/php83/php.ini && \
+    cp /config/php_fpm_site.conf /etc/php83/php-fpm.d/www.conf; \
     cp /config/nginx_site.conf /etc/nginx/http.d/default.conf; \
     chown nobody:nginx /var/www/html/* -R;
 
