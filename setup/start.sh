@@ -1,6 +1,6 @@
 #!/bin/sh
 
-ln -s /dev/stdout /var/log/php81/error.log
+ln -s /dev/stdout /var/log/php83/error.log
 ln -s /dev/stdout /var/log/nginx/access.log
 ln -s /dev/stdout /var/log/nginx/error.log
 
@@ -65,6 +65,6 @@ chown -R nobody:nginx /var/www/html/uploads;
 chown -R nobody:nginx /var/www/html/assets/core/css;
 chown -R nobody:nginx /var/www/html/application/views;
 
-php-fpm81
+php-fpm83
 
 exec "$@"
