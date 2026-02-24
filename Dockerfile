@@ -2,7 +2,7 @@ FROM alpine:3.23
 LABEL org.opencontainers.image.authors="matt@horwood.biz"
 
 RUN apk update                             \
-    &&  apk add nginx php83-fpm php83-session \
+    && apk add nginx php83-fpm php83-session \
     php83-gd php83-mbstring php83-mysqli php83-openssl \
     php83-xml php83-dom php83-intl php83-bcmath php83-iconv \
     composer curl \
@@ -13,7 +13,7 @@ RUN apk update                             \
     ln -s /usr/bin/php83 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
-    IP_VERSION="v1.7.0" \
+    IP_VERSION="v1.7.1" \
     MYSQL_HOST="mariadb_10_4" \
     MYSQL_USER="root" \
     MYSQL_PASSWORD="my-secret-pw" \
