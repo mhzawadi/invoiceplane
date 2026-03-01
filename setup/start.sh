@@ -26,7 +26,7 @@ fi
 [ -n "$ENABLE_INVOICE_DELETION" ] && sed -i -e "s/^ENABLE_INVOICE_DELETION=$/ENABLE_INVOICE_DELETION=${ENABLE_INVOICE_DELETION}/" /var/www/html/ipconfig.php
 [ -n "$DISABLE_READ_ONLY" ] && sed -i -e "s/^DISABLE_READ_ONLY=$/DISABLE_READ_ONLY=${DISABLE_READ_ONLY}/" /var/www/html/ipconfig.php
 
-if [ $(grep -q 'PROXY_IPS' /var/www/html/ipconfig.php;echo $?) -eq 1 ]
+if [ $(grep -q 'PROXY_IPS' /var/www/html/ipconfig.php;echo $?) -eq 0 ]
 then
   [ -n "$PROXY_IPS" ] && sed -i -e "s!PROXY_IPS=\$!PROXY_IPS=${PROXY_IPS}!" /var/www/html/ipconfig.php
 else
