@@ -3,6 +3,7 @@
 ln -s /dev/stdout /var/log/php83/error.log
 ln -s /dev/stdout /var/log/nginx/access.log
 ln -s /dev/stdout /var/log/nginx/error.log
+ln -s /dev/stdout /var/log/fpm-php.www.log
 
 
 if [ ! -f "/var/www/html/ipconfig.php" ]

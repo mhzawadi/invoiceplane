@@ -10,10 +10,16 @@ volumes:
 
 services:
   proxyv2:
-    image: traefik:v2.5 # The official Traefik docker image
+    image: traefik:v3.6 # The official Traefik docker image
     command:
       - "--api.insecure=true"
       - "--providers.docker"
+      - "--entrypoints.web.address=:80"
+      - "--entryPoints.web.http.encodedCharacters.allowEncodedSlash=true"
+      - "--entryPoints.web.http.encodedCharacters.allowEncodedQuestionMark=true"
+      - "--entryPoints.web.http.encodedCharacters.allowEncodedPercent=true"
+      - "--entryPoints.web.http.encodedCharacters.allowEncodedSemicolon=true"
+      - "--entryPoints.web.http.encodedCharacters.allowEncodedHash=true"
     ports:
       - "80:80"     # The HTTP port
       - "443:443"   # The HTTP port
@@ -23,7 +29,7 @@ services:
     labels:
       - "traefik.enable=false"
   invoiceplane:
-    image: mhzawadi/invoiceplane
+    image: mhzawadi/invoiceplane:dev
     volumes:
       - invoiceplane_uploads:/var/www/html/uploads
       - invoiceplane_css:/var/www/html/assets/core/css
