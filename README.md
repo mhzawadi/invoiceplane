@@ -51,7 +51,7 @@ This will also setup a database called invoiceplane with the invoiceplane user h
 
 ### Upgrading
 
-If you have a running container, you will need to set `DISABLE_SETUP` to false. Then goto `http://yourdomain.com/index.php/setup` and follow the instructions. 
+If you have a running container, you will need to set `DISABLE_SETUP` to false. Then goto `http://yourdomain.com/index.php/setup` and follow the instructions.
 
 ### Docker compose
 
@@ -130,6 +130,19 @@ You can use both an array or a comma-separated list of proxy addresses, as well 
   - `PROXY_IPS='10.0.1.200,192.168.5.0/24'`
 - Array:		
   - `PROXY_IPS=array('10.0.1.200', '192.168.5.0/24')`
+
+#### Explicit allowlist of custom template names (without .php extension).
+Security: The filesystem is NEVER scanned for templates (prevents Remote Code Execution).
+
+Only template names listed here are made available in the UI.
+
+Names must contain only letters, digits, spaces, hyphens, and underscores.
+
+Format: comma-separated names. Quote the whole value when names contain spaces or hyphens.
+- CUSTOM_INVOICE_TEMPLATES_PDF="My Template,Another Template"
+- CUSTOM_INVOICE_TEMPLATES_PDF="Corporate - Modern,Corporate - Classic"
+- CUSTOM_QUOTE_TEMPLATES_PDF="My Template,Another Template"
+- CUSTOM_QUOTE_TEMPLATES_PUBLIC="Corporate - Modern,Corporate - Classic"
 
 ## Docker hub tags
 
