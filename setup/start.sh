@@ -11,7 +11,6 @@ then
   cp /var/www/html/ipconfig.php.example /var/www/html/ipconfig.php
 fi
 
-SESS_SAVE_PATH
 sed -i -e "s!^SESS_SAVE_PATH=\$!SESS_SAVE_PATH=/var/lib/invoiceplane/sessions!" /var/www/html/ipconfig.php
 
 [ -n "$IP_URL" ] && sed -i -e "s!IP_URL=\$!IP_URL=${IP_URL}!" /var/www/html/ipconfig.php
