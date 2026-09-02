@@ -9,6 +9,7 @@ RUN apk update                             \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
     && mkdir -p /run/nginx; \
+    && mkdir -p /var/lib/invoiceplane/sessions; \
     [ -f /usr/bin/php ] && rm -f /usr/bin/php; \
     ln -s /usr/bin/php83 /usr/bin/php;
 
