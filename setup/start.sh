@@ -3,12 +3,15 @@
 ln -s /dev/stdout /var/log/php83/error.log
 ln -s /dev/stdout /var/log/nginx/access.log
 ln -s /dev/stdout /var/log/nginx/error.log
+ln -s /dev/stdout /var/log/fpm-php.www.log
 
 
 if [ ! -f "/var/www/html/ipconfig.php" ]
 then
   cp /var/www/html/ipconfig.php.example /var/www/html/ipconfig.php
 fi
+
+sed -i -e "s!^SESS_SAVE_PATH=\$!SESS_SAVE_PATH=/var/lib/invoiceplane/sessions!" /var/www/html/ipconfig.php
 
 [ -n "$IP_URL" ] && sed -i -e "s!IP_URL=\$!IP_URL=${IP_URL}!" /var/www/html/ipconfig.php
 [ -n "$ENABLE_DEBUG" ] && sed -i -e "s/ENABLE_DEBUG=.*/ENABLE_DEBUG=${ENABLE_DEBUG}/" /var/www/html/ipconfig.php
@@ -25,6 +28,11 @@ fi
 [ -n "$SESS_MATCH_IP" ] && sed -i -e "s/^SESS_MATCH_IP=$/SESS_MATCH_IP=${SESS_MATCH_IP}/" /var/www/html/ipconfig.php
 [ -n "$ENABLE_INVOICE_DELETION" ] && sed -i -e "s/^ENABLE_INVOICE_DELETION=$/ENABLE_INVOICE_DELETION=${ENABLE_INVOICE_DELETION}/" /var/www/html/ipconfig.php
 [ -n "$DISABLE_READ_ONLY" ] && sed -i -e "s/^DISABLE_READ_ONLY=$/DISABLE_READ_ONLY=${DISABLE_READ_ONLY}/" /var/www/html/ipconfig.php
+
+[ -n "$CUSTOM_INVOICE_TEMPLATES_PDF" ] && sed -i -e "s/^CUSTOM_INVOICE_TEMPLATES_PDF=$/CUSTOM_INVOICE_TEMPLATES_PDF=\"${CUSTOM_INVOICE_TEMPLATES_PDF}\"/" /var/www/html/ipconfig.php
+[ -n "$CUSTOM_INVOICE_TEMPLATES_PUBLIC" ] && sed -i -e "s/^CUSTOM_INVOICE_TEMPLATES_PUBLIC=$/CUSTOM_INVOICE_TEMPLATES_PUBLIC=\"${CUSTOM_INVOICE_TEMPLATES_PUBLIC}\"/" /var/www/html/ipconfig.php
+[ -n "$CUSTOM_QUOTE_TEMPLATES_PDF" ] && sed -i -e "s/^CUSTOM_QUOTE_TEMPLATES_PDF=$/CUSTOM_QUOTE_TEMPLATES_PDF=\"${CUSTOM_QUOTE_TEMPLATES_PDF}\"/" /var/www/html/ipconfig.php
+[ -n "$CUSTOM_QUOTE_TEMPLATES_PUBLIC" ] && sed -i -e "s/^CUSTOM_QUOTE_TEMPLATES_PUBLIC=$/CUSTOM_QUOTE_TEMPLATES_PUBLIC=\"${CUSTOM_QUOTE_TEMPLATES_PUBLIC}\"/" /var/www/html/ipconfig.php
 
 if [ $(grep -q 'PROXY_IPS' /var/www/html/ipconfig.php;echo $?) -eq 0 ]
 then

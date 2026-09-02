@@ -8,12 +8,13 @@ RUN apk update                             \
     composer curl \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
-    && mkdir -p /run/nginx; \
+    && mkdir -p /run/nginx \
+    && mkdir -p /var/lib/invoiceplane/sessions; \
     [ -f /usr/bin/php ] && rm -f /usr/bin/php; \
     ln -s /usr/bin/php83 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
-    IP_VERSION="v1.7.1" \
+    IP_VERSION="v1.7.2" \
     MYSQL_HOST="mariadb_10_4" \
     MYSQL_USER="root" \
     MYSQL_PASSWORD="my-secret-pw" \
@@ -33,7 +34,8 @@ RUN cd /tmp && \
     cp /config/php.ini /etc/php83/php.ini && \
     cp /config/php_fpm_site.conf /etc/php83/php-fpm.d/www.conf; \
     cp /config/nginx_site.conf /etc/nginx/http.d/default.conf; \
-    chown nobody:nginx /var/www/html/* -R;
+    chown nobody:nginx /var/www/html/* -R \
+    && chown nobody:nginx /var/lib/invoiceplane/sessions;
 
 WORKDIR /var/www/html
 
