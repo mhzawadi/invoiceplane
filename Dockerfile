@@ -34,7 +34,8 @@ RUN cd /tmp && \
     cp /config/php.ini /etc/php83/php.ini && \
     cp /config/php_fpm_site.conf /etc/php83/php-fpm.d/www.conf; \
     cp /config/nginx_site.conf /etc/nginx/http.d/default.conf; \
-    chown nobody:nginx /var/www/html/* -R;
+    chown nobody:nginx /var/www/html/* -R \
+    && chown nobody:nginx /var/lib/invoiceplane/sessions;
 
 WORKDIR /var/www/html
 
