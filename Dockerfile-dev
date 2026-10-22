@@ -1,15 +1,17 @@
-FROM alpine:3.17
+FROM alpine:3.24
 MAINTAINER Matthew Horwood <matt@horwood.biz>
 
 RUN apk update                             \
-    &&  apk add nginx php82-fpm \
-    php82-gd php82-mbstring php82-mysqli php82-openssl \
-    php82-xml php82-intl php82-bcmath composer curl \
+    && apk add nginx php85-fpm php85-session \
+    php85-gd php85-mbstring php85-mysqli php85-openssl \
+    php85-xml php85-dom php85-intl php85-bcmath php85-iconv \
+    composer curl \
     && rm -f /var/cache/apk/* \
     && mkdir -p /var/www/html/ \
-  	&& mkdir -p /run/nginx; \
+    && mkdir -p /run/nginx \
+    && mkdir -p /var/lib/invoiceplane/sessions; \
     [ -f /usr/bin/php ] && rm -f /usr/bin/php; \
-    ln -s /usr/bin/php82 /usr/bin/php;
+    ln -s /usr/bin/php85 /usr/bin/php;
 
 ENV IP_SOURCE="https://github.com/InvoicePlane/InvoicePlane/releases/download" \
     IP_VERSION="v1.7.2" \
