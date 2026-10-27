@@ -110,15 +110,29 @@ the `environment` section of your `docker-compose.yml` should have some like the
 ### Environment variables summary
 
 - TZ: the timezone for PHP
-- IP_URL: This is the host that you will access the site on
+- IP_URL: Public base URL without trailing slash, e.g. https://invoices.example.com
+- ENABLE_DEBUG: Enable advanced debug logging
+- DISABLE_SETUP: used to hide the setup page
 - REMOVE_INDEXPHP: To remove index.php from the URL
   - the bundled nginx has the config to work with this set to `true`
-- MYSQL_HOST: the MySQL server
-- MYSQL_USER: the username for MySQL
-- MYSQL_PASSWORD: the password for MySQL
-- MYSQL_DB: the MySQL database
-- MYSQL_PORT: the MySQL port, if not 3306
-- SETUP_COMPLETED: Have you run setup?
+- MYSQL_HOST: Database host
+- MYSQL_USER: Database user
+- MYSQL_PASSWORD: Database name
+- MYSQL_DB: Database password
+- MYSQL_PORT: Database port
+- SESS_EXPIRATION: Session lifetime in seconds (0 = expire on browser close)
+- SESS_MATCH_IP: Tie sessions to the client IP address
+- ENABLE_INVOICE_DELETION: Allow invoices to be permanently deleted
+- DISABLE_READ_ONLY: Disable the read-only mode for sent invoices
+- CUSTOM_TEMPLATES_FOLDER: Absolute path to a directory of custom invoice/quote templates.
+- CUSTOM_INVOICE_TEMPLATES_PDF: Comma-separated allowlist of custom PDF invoice template names (without .php). Quote the value if names contain spaces: "My Template,Another"
+- CUSTOM_INVOICE_TEMPLATES_PUBLIC: Same, for public/web invoice templates
+- CUSTOM_QUOTE_TEMPLATES_PDF: Same, for PDF quote templates
+- CUSTOM_QUOTE_TEMPLATES_PUBLIC: Same, for public/web quote templates
+- PROXY_IPS: Trusted proxy IP addresses
+- ENCRYPTION_KEY: Secret key for encrypted data — generate with openssl rand -base64 32
+- ENCRYPTION_CIPHER: Cipher used for encrypted settings
+
 
 #### Reverse Proxy IPs
 
@@ -132,17 +146,42 @@ You can use both an array or a comma-separated list of proxy addresses, as well 
   - `PROXY_IPS=array('10.0.1.200', '192.168.5.0/24')`
 
 #### Explicit allowlist of custom template names (without .php extension).
-Security: The filesystem is NEVER scanned for templates (prevents Remote Code Execution).
 
-Only template names listed here are made available in the UI.
+> **Security note:** The filesystem is never scanned for templates. This prevents Remote Code
+> Execution (RCE) attacks where an attacker writes a PHP file to the templates directory and
+> then triggers it via the admin panel. This allowlist-based mechanism was introduced as part of
+> the [1.7.2 security release](../CHANGELOG.md#172---2026-07-14) — see
+> [SECURITY_ADVISORY_RCE_FIX.md](../security/SECURITY_ADVISORY_RCE_FIX.md) for the full advisory.
 
-Names must contain only letters, digits, spaces, hyphens, and underscores.
+To add a custom template:
 
-Format: comma-separated names. Quote the whole value when names contain spaces or hyphens.
-- CUSTOM_INVOICE_TEMPLATES_PDF="My Template,Another Template"
-- CUSTOM_INVOICE_TEMPLATES_PDF="Corporate - Modern,Corporate - Classic"
-- CUSTOM_QUOTE_TEMPLATES_PDF="My Template,Another Template"
-- CUSTOM_QUOTE_TEMPLATES_PUBLIC="Corporate - Modern,Corporate - Classic"
+1. **Create the template `.php` file** inside `CUSTOM_TEMPLATES_FOLDER` under the appropriate sub-path:
+   ```
+   <CUSTOM_TEMPLATES_FOLDER>/invoice_templates/pdf/MyTemplate.php
+   <CUSTOM_TEMPLATES_FOLDER>/invoice_templates/public/MyTemplate.php
+   <CUSTOM_TEMPLATES_FOLDER>/quote_templates/pdf/MyTemplate.php
+   <CUSTOM_TEMPLATES_FOLDER>/quote_templates/public/MyTemplate.php
+   ```
+
+2. **Add the template name** (without `.php`) to the matching allowlist key in `ipconfig.php`.
+   Quote the value when names contain spaces or hyphens:
+   ```
+   CUSTOM_INVOICE_TEMPLATES_PDF="MyTemplate,Corporate - Modern"
+   CUSTOM_INVOICE_TEMPLATES_PUBLIC="MyTemplate"
+   CUSTOM_QUOTE_TEMPLATES_PDF="MyTemplate"
+   CUSTOM_QUOTE_TEMPLATES_PUBLIC="MyTemplate"
+   ```
+   Template names may only contain letters, digits, spaces, hyphens (`-`), and underscores (`_`).
+
+3. The template will appear in **Settings → Invoice / Quote** once it is listed.
+
+> The filesystem is never scanned to build the selector. Built-in templates always appear in the
+> selector, and custom templates appear **only** if you explicitly allowlist their names in step 2.
+> `CUSTOM_TEMPLATES_FOLDER` is used only at render time to locate the file on disk, so setting the
+> folder alone will not expose any custom templates. This is the RCE prevention mechanism.
+
+For container deployments, `CUSTOM_TEMPLATES_FOLDER` and the allowlist variables above are set
+as environment variables instead — see [CONTAINER_DEPLOYMENT.md](CONTAINER_DEPLOYMENT.md).
 
 ## Docker hub tags
 
@@ -155,4 +194,4 @@ You can use following tags on Docker hub:
 
 Latest is build from the docker hub once I push to the github repo, the arm versions are built from my mac with the below buildx tool
 
-`docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t mhzawadi/invoiceplane:v1.5.10.1 --push .`
+`docker build -t mhzawadi/invoiceplane:testing .`
