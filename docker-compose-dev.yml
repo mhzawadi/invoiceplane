@@ -1,4 +1,4 @@
-version: '3.5'
+---
 
 # docker stack deploy --compose-file stack-invoiceplane.yml invoiceplane
 
@@ -32,6 +32,7 @@ services:
       - MYSQL_DB=InvoicePlane
       - IP_URL=http://invoiceplane.docker.local
       - DISABLE_SETUP=false
+      - ENCRYPTION_KEY=EkmO8Gwbq7R8pa1Viv3SLAovBF7SWAeZ6OUv6lEl7Lc= # generate with openssl rand -base64 32
     labels:
       - "traefik.http.routers.invoiceplane.rule=Host(`invoiceplane.docker.local`)"
       - "traefik.http.routers.invoiceplane.service=invoiceplane"

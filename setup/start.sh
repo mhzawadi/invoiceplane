@@ -43,13 +43,21 @@ else
 fi
 
 ### CRITICAL
-if [ -n "$SETUP_COMPLETED" ]; then
+if [ -n "$SETUP_COMPLETED" ]
+then
     [ -n "$ENCRYPTION_KEY" ] && sed -i -e "s/ENCRYPTION_KEY=.*/ENCRYPTION_KEY=${ENCRYPTION_KEY}/" /var/www/html/ipconfig.php;
     [ -n "$ENCRYPTION_CIPHER" ] && sed -i -e "s/ENCRYPTION_CIPHER=.*/ENCRYPTION_CIPHER=${ENCRYPTION_CIPHER}/" /var/www/html/ipconfig.php;
     sed -i -e "s/SETUP_COMPLETED=.*/SETUP_COMPLETED=${SETUP_COMPLETED}/" /var/www/html/ipconfig.php;
+else
+  ### Run DB migrations
+  echo "Running any Database migrations"
+  php index.php setup/cli/migrate
 fi
 
-[[ ! -d "/var/www/html/application/logs/" ]] && mkdir -p "/var/www/html/application/logs/"
+if [ ! -d "/var/www/html/application/logs/" ]
+then
+  mkdir -p "/var/www/html/application/logs/"
+fi
 
 ### Setup custom uploads
 if [ ! -f "/var/www/html/uploads/index.html" ]
