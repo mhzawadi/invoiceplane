@@ -45,10 +45,9 @@ fi
 ### CRITICAL
 if [ -n "$SETUP_COMPLETED" ]
 then
-    [ -n "$ENCRYPTION_KEY" ] && sed -i -e "s/ENCRYPTION_KEY=.*/ENCRYPTION_KEY=${ENCRYPTION_KEY}/" /var/www/html/ipconfig.php;
-    [ -n "$ENCRYPTION_CIPHER" ] && sed -i -e "s/ENCRYPTION_CIPHER=.*/ENCRYPTION_CIPHER=${ENCRYPTION_CIPHER}/" /var/www/html/ipconfig.php;
-    sed -i -e "s/SETUP_COMPLETED=.*/SETUP_COMPLETED=${SETUP_COMPLETED}/" /var/www/html/ipconfig.php;
-else
+  [ -n "$ENCRYPTION_KEY" ] && sed -i -e "s/ENCRYPTION_KEY=.*/ENCRYPTION_KEY=${ENCRYPTION_KEY}/" /var/www/html/ipconfig.php;
+  [ -n "$ENCRYPTION_CIPHER" ] && sed -i -e "s/ENCRYPTION_CIPHER=.*/ENCRYPTION_CIPHER=${ENCRYPTION_CIPHER}/" /var/www/html/ipconfig.php;
+  sed -i -e "s/SETUP_COMPLETED=.*/SETUP_COMPLETED=${SETUP_COMPLETED}/" /var/www/html/ipconfig.php;
   ### Run DB migrations
   echo "Running any Database migrations"
   php index.php setup/cli/migrate
